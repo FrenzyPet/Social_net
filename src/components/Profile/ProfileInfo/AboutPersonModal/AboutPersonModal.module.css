@@ -1,0 +1,86 @@
+.titleWrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.buttonWrapper {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.closeButton {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.closeButton::after,
+.closeButton::before {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 13px;
+  background-color: black;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  transition: transform 200ms;
+}
+
+.closeButton::before {
+  transform: translate(-50%, -50%) rotate(135deg);
+}
+
+.closeButton:hover::after {
+  transform: translate(-50%, -50%) rotate(135deg);
+}
+
+.closeButton:hover::before {
+  transform: translate(-50%, -50%) rotate(225deg);
+}
+
+.title {
+  margin: 0;
+}
+
+.infoProfile {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section {
+  padding: 7px 15px;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+}
+
+.subtitle {
+  margin: 0;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.infoField {
+  display: flex;
+  padding-left: 10px;
+  color: rgb(99, 99, 99);
+}
+
+.infoField__name {
+  min-width: 100px;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.infoField__value {
+  font-size: 14px;
+}

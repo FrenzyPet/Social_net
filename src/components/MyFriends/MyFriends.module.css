@@ -1,0 +1,21 @@
+.friends {
+  grid-column: 1 / 2;
+  background-color: rgba(0, 153, 125, 0.7);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.friends__title {
+  margin: 0;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.friends__list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}

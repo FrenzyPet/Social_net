@@ -1,0 +1,72 @@
+.closeButton {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  top: 25px;
+  right: 25px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.closeButton::after,
+.closeButton::before {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 13px;
+  background-color: black;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  transition: transform 200ms;
+}
+
+.closeButton::before {
+  transform: translate(-50%, -50%) rotate(135deg);
+}
+
+.closeButton:hover::after {
+  transform: translate(-50%, -50%) rotate(135deg);
+}
+
+.closeButton:hover::before {
+  transform: translate(-50%, -50%) rotate(225deg);
+}
+
+.title {
+  margin: 0;
+  margin-bottom: 30px;
+}
+
+.description {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.input__wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.input__photo {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+}
+
+.label {
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 4px;
+  color: black;
+  font-size: 14px;
+}
+
+.label:hover {
+  opacity: 0.8;
+}

@@ -1,0 +1,27 @@
+.dialogs__message {
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.dialogs__message_mine {
+  flex-direction: row-reverse;
+}
+
+.message__avatar {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.message__text {
+  display: block;
+  font-size: 12px;
+  padding: 5px 10px;
+  background-color: rgba(0, 153, 125, 0.3);
+  border-radius: 10px;
+}

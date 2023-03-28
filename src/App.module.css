@@ -1,0 +1,14 @@
+body {
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #cc78fa28;
+}
+
+.wrapper {
+  display: grid;
+  width: 1200px;
+  margin: 0 auto;
+  grid-template-columns: 3fr 9fr;
+  gap: 10px;
+  grid-auto-flow: dense;
+}

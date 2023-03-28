@@ -1,0 +1,72 @@
+.form {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 30px;
+}
+
+.textareaWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  margin-right: 20px;
+}
+
+.textarea {
+  width: 100%;
+  font-size: 14px;
+  appearance: none;
+  border: 2px solid rgba(0, 153, 125, 0.7);
+  border-radius: 5px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  resize: none;
+}
+
+.textarea__error {
+  border-color: #df7474;
+}
+
+.textarea:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 5px 0 rgba(0, 153, 125, 0.9);
+}
+
+.textarea__error:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 5px 0 #df7474;
+}
+
+.button {
+  width: auto;
+  padding: 5px 10px;
+  color: white;
+  background-color: rgba(0, 153, 125, 0.7);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: rgba(0, 153, 125, 0.9);
+}
+
+.postsList {
+  padding: 0;
+  list-style-type: none;
+  display: grid;
+  gap: 10px;
+}
+
+.error {
+  position: absolute;
+  bottom: -20px;
+  left: 10px;
+  font-size: 12px;
+  color: #bf1650;
+}
+
+.error::before {
+  display: inline;
+  content: "⚠ ";
+}

@@ -1,0 +1,38 @@
+.backsheet {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(242, 242, 242, 0.9);
+  z-index: 10;
+  transition: 300ms;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.backsheet__active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.content {
+  position: relative;
+  min-width: 50px;
+  min-height: 50px;
+  margin: 0 auto;
+  padding: 20px;
+  color: white;
+  top: -100px;
+  background-color: #4ab0a4;
+  box-shadow: 0 0 50px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 15px;
+  transform: scale(0.4);
+  transition: transform 300ms;
+}
+
+.content__active {
+  transform: scale(1);
+}

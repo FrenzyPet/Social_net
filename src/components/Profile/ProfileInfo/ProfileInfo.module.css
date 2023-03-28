@@ -1,0 +1,82 @@
+.profileInfo {
+  margin-bottom: 20px;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  margin-right: 30px;
+  cursor: pointer;
+}
+
+.avatar__notOwner {
+  cursor: auto;
+}
+
+.photo {
+  display: block;
+  border: 4px solid rgba(0, 153, 125, 0.7);
+  border-radius: 10px;
+}
+
+.data {
+  align-self: stretch;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+
+.name {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.status__wrapper {
+  cursor: pointer
+}
+
+.status__wrapper__notOwner {
+  cursor: auto;
+}
+
+.statusbar {
+  color: rgba(134, 131, 131, 0.664);
+}
+
+.settings {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px
+}
+
+.detailsWrapper {
+  cursor: pointer;
+  position: relative;
+}
+
+.detailsWrapper:hover {
+  opacity: 0.6;
+}
+
+.detailsTitle {
+  display: block;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  margin-left: 18px;
+  color: #4b4b4b;
+}
+
+.detailsIcon {
+  position: absolute;
+  display: block;
+  width: 15px;
+  height: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+}
