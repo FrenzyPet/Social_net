@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getUserLogin } from "./auth-slice";
-import { AppDispatch } from "./store";
+import { AppDispatch } from "../hooks/typedHooks";
 
-type InitialStateType = {
+type AppSliceState = {
   isInit: boolean
 }
 
-const initialState: InitialStateType = {
+const initialState: AppSliceState = {
   isInit: false
 }
 

@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { FC } from 'react';
+import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { addPost } from '../../../reduxToolkit/profile-slice';
 import style from './MyPosts.module.css'
 import Post from './Post/Post';
+import { useAppDispatch, useTypedSelector } from '../../../hooks/typedHooks';
 
-const MyPosts = () => {
-  const postsData = useSelector(state => state.profilePage.postsData)
-  const postsElements = postsData.map((item) => (<Post id={item.id} message={item.message} likesCount={item.likeCount} key={item.id} />));
+const MyPosts: FC = () => {
+  const postsData = useTypedSelector(state => state.profilePage.postsData)
+  const postsElements = postsData.map((item) => (<Post id={item.id} message={item.message} likesCount={item.likesCount} key={item.id} />));
 
   return (
     <div>
@@ -19,13 +21,12 @@ const MyPosts = () => {
   )
 }
 
-const NewPostForm = () => {
-  const dispatch = useDispatch()
+const NewPostForm: FC = () => {
+  const dispatch = useAppDispatch()
   const { handleSubmit, register, reset, formState, formState: { errors } } = useForm({defaultValues: {newPost: ''}});
 
-  const onSubmit = (formData) => {
-    console.log(formData)
-    dispatch(addPost(formData.newPost));
+  const onSubmit = ({ newPost } : { newPost : string }) => {
+    dispatch(addPost(newPost));
   }
 
   useEffect(() => {

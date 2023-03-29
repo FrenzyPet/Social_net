@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { authAPI, securityAPI } from "../api/api";
-import { AppDispatch } from "./store";
+import { AppDispatch } from "../hooks/typedHooks";
 
-type InitialStateType = {
+type AuthSliceState = {
   userID: number | null
   login: string | null
   email: string | null
@@ -27,7 +27,7 @@ type SetCaptchaUrlActionType = {
   payload: string
 }
 
-const initialState: InitialStateType = {
+const initialState: AuthSliceState = {
   userID: null,
   login: null,
   email: null,

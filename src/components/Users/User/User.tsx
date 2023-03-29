@@ -1,8 +1,22 @@
 import { NavLink } from 'react-router-dom';
+import * as React from 'react';
+import { FC } from 'react';
 import style from './User.module.css';
 import avatar from '../../../assets/images/user-avatar.png';
+import { PhotosType } from '../../../types/types';
 
-const User = (props) => {
+type PropsType = {
+  id: number
+  name: string
+  photos: PhotosType 
+  status: string
+  followed: boolean
+  followingInProgress: Array<number>
+  onFollow: (userID: number) => void
+  onUnfollow: (userID: number) => void
+}
+
+const User: FC<PropsType> = (props) => {
   return (
     <li className={style.userItem}>
       <div className={style.user__view}>

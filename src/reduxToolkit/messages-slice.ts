@@ -1,17 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { MessageType, DialogType } from "../types/types";
 
-type MessageType = {
-  id: number
-  text: string
-  isMine: boolean
-}
-
-type DialogType = {
-  id: number
-  name: string
-}
-
-type InitialStateType = {
+type MessagesSliceState = {
   dialogsData: Array<DialogType>
   messagesData: Array<MessageType>
 }
@@ -21,7 +11,7 @@ type SendMessageActionType = {
   payload: string
 }
 
-const initialState: InitialStateType = {
+const initialState: MessagesSliceState = {
   dialogsData: [
     { name: 'Artem', id: 1 },
     { name: 'Andrey', id: 2 },

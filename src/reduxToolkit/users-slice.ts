@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { usersAPI } from "../api/api";
 import { UserType } from "../types/types";
-import { AppDispatch } from "./store";
+import { AppDispatch } from "../hooks/typedHooks";
 
 export type UsersSliceState = {
   usersData: Array<UserType>
@@ -12,39 +12,9 @@ export type UsersSliceState = {
   followingInProgress: Array<number>
 }
 
-type FollowUserActionType = {
-  type: string
-  payload: number
-}
-
-type SetUsersActionType = {
-  type: string
-  payload: Array<UserType>
-}
-
-type SetCurrentPageActionType = {
-  type: string
-  payload: number
-}
-
-type SetTotalUsersCountActionType = {
-  type: string
-  payload: number
-}
-
-type SetIsFetchingActionType = {
-  type: string
-  payload: boolean
-}
-
 type PayloadToogleType = {
   isFetching: boolean
   userID: number
-}
-
-type ToggleFollowingProgressActionType = {
-  type: string
-  payload: PayloadToogleType
 }
 
 const initialState: UsersSliceState = {
@@ -60,7 +30,7 @@ const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    followUser: (state, action: FollowUserActionType) => {
+    followUser: (state, action: PayloadAction<number>) => {
       state.usersData = state.usersData.map(user => {
         if (user.id === action.payload) {
           return {...user, followed: true}
@@ -68,7 +38,7 @@ const usersSlice = createSlice({
         return user;
       })
     },
-    unfollowUser: (state, action: FollowUserActionType) => {
+    unfollowUser: (state, action: PayloadAction<number>) => {
       state.usersData = state.usersData.map(user => {
         if (user.id === action.payload) {
           return {...user, followed: false}
@@ -76,19 +46,19 @@ const usersSlice = createSlice({
         return user;
       })
     },
-    setUsers: (state, action: SetUsersActionType) => {
+    setUsers: (state, action: PayloadAction<Array<UserType>>) => {
       state.usersData = action.payload
     },
-    setCurrentPage: (state, action: SetCurrentPageActionType) => {
+    setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload
     },
-    setTotalUsersCount: (state, action: SetTotalUsersCountActionType) => {
+    setTotalUsersCount: (state, action: PayloadAction<number>) => {
       state.totalCount = action.payload
     },
-    setIsFetching: (state, action: SetIsFetchingActionType) => {
+    setIsFetching: (state, action: PayloadAction<boolean>) => {
       state.isFetching = action.payload
     },
-    toggleFollowingProgress: (state, action: ToggleFollowingProgressActionType) => {
+    toggleFollowingProgress: (state, action: PayloadAction<PayloadToogleType>) => {
       state.followingInProgress = action.payload.isFetching
                                     ? [...state.followingInProgress, action.payload.userID]
                                     : state.followingInProgress.filter(item => item !== action.payload.userID)

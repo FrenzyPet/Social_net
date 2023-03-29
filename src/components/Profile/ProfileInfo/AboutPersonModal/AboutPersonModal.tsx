@@ -1,24 +1,36 @@
-import { useSelector } from 'react-redux';
 import style from './AboutPersonModal.module.css';
-import ModalWindow from '../../../common/ModalWindow/ModalWindow'
+import ModalWindow from '../../../common/ModalWindow/ModalWindow';
+import { FC } from 'react';
+import * as React from 'react';
+import { useTypedSelector } from '../../../../hooks/typedHooks';
 
-const InfoField = (props) => {
+interface FieldProps extends React.HTMLAttributes<HTMLDivElement> {
+  name: string
+  value: string
+}
+
+const InfoField: FC<FieldProps> = ({ name, value }) => {
   return (
     <div className={style.infoField}>
-      <b className={style.infoField__name}>{props.name}</b>
+      <b className={style.infoField__name}>{name}</b>
       <div className={style.infoField__value}>
-        { props.value &&
-          props.value.indexOf('http') === 0
-            ? (<a href={props.value}>{props.value}</a>)
-            : props.value
+        { value &&
+          value.indexOf('http') === 0
+            ? (<a href={value}>{value}</a>)
+            : value
         }
       </div>
     </div>
   )
 }
 
-const AboutPersonModal = ({ isAboutModal, setAboutModal }) => {
-  const {fullName, aboutMe, contacts, lookingForAJob, lookingForAJobDescription} = useSelector(state => state.profilePage.profile)
+interface FormProps {
+  isAboutModal: boolean
+  setAboutModal: (value: boolean) => void
+}
+
+const AboutPersonModal: FC<FormProps> = ({ isAboutModal, setAboutModal }) => {
+  const {fullName, aboutMe, contacts, lookingForAJob, lookingForAJobDescription} = useTypedSelector(state => state.profilePage.profile)
   return (
     <ModalWindow isActive={isAboutModal} setIsActive={setAboutModal} width='500'>
       <div className={style.titleWrapper}>

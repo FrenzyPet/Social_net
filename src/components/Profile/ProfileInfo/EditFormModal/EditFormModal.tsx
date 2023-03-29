@@ -1,10 +1,21 @@
-import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { FC } from 'react';
+import * as React from 'react';
+import { useForm, UseFormRegister } from 'react-hook-form';
 import { updateProfile } from '../../../../reduxToolkit/profile-slice';
 import ModalWindow from '../../../common/ModalWindow/ModalWindow';
-import style from './EditFormModal.module.css'
+import style from './EditFormModal.module.css';
+import { useAppDispatch, useTypedSelector } from '../../../../hooks/typedHooks';
+import { ProfileType } from '../../../../types/types'
 
-const FormField = ({ keyName, placeholder, type = "text", register, required }) => {
+interface FieldProps extends React.HTMLAttributes<HTMLDivElement> {
+  register: UseFormRegister<ProfileType>
+  keyName: any
+  placeholder: string
+  required?: boolean
+  type?: string
+}
+
+const FormField: FC<FieldProps> = ({ keyName, placeholder, type = "text", register, required }) => {
   return (
     <div className={style.field__wrapper}>
       <label className={style.form__label} htmlFor={keyName}>{`${placeholder}:`}</label>
@@ -13,12 +24,17 @@ const FormField = ({ keyName, placeholder, type = "text", register, required }) 
   )
 }
 
-const EditFormModal = ( { isEditFormModal, setEditFormModal }) => {
-  const profile = useSelector(state => state.profilePage.profile)
-  const dispatch = useDispatch()
+interface FormProps {
+  isEditFormModal: boolean
+  setEditFormModal: (value: boolean) => void
+}
+
+const EditFormModal: FC<FormProps> = ( { isEditFormModal, setEditFormModal }) => {
+  const profile = useTypedSelector(state => state.profilePage.profile)
+  const dispatch = useAppDispatch()
   const { handleSubmit, register, setError, formState: { errors } } = useForm({ defaultValues: profile })
  
-  const onSubmit = async (formData) => {
+  const onSubmit = async (formData: any) => {
     dispatch(updateProfile(formData, setError))
     setEditFormModal(false)
   }

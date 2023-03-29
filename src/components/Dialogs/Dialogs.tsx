@@ -1,13 +1,14 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, FC } from 'react';
+import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { sendMessage } from '../../reduxToolkit/messages-slice';
 import style from './Dialogs.module.css';
 import Message from './Message/Message';
 import DialogItem from './DialogsItem/DialogsItem';
+import { useAppDispatch, useTypedSelector } from '../../hooks/typedHooks';
 
-const Dialogs = () => {
-  const { dialogsData, messagesData } = useSelector(state => state.messagesPage)
+const Dialogs: FC = () => {
+  const { dialogsData, messagesData } = useTypedSelector(state => state.messagesPage)
 
   let dialogsElements = dialogsData.map((item) => (<DialogItem name={item.name} id={item.id} key={item.id}/>));
   let messagesElements = messagesData.map((item) => (<Message text={item.text} id={item.id} isMine={item.isMine} key={item.id}/>));
@@ -30,12 +31,12 @@ const Dialogs = () => {
   )
 }
 
-const MessageForm = () => {
+const MessageForm: FC = () => {
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { handleSubmit, register, reset, formState, formState: { errors } } = useForm({defaultValues: {newMessage: ''}});
 
-  const onSubmit = (formData) => {
+  const onSubmit = (formData: any) => {
     dispatch(sendMessage(formData.newMessage))
   }
 

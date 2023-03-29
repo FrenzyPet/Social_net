@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import * as React from 'react';
+import { useEffect, useState, FC} from 'react';
+import { shallowEqual } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getUserProfile, getStatus, updateStatus } from "../../../reduxToolkit/profile-slice";
 import style from './ProfileInfo.module.css';
@@ -9,21 +10,22 @@ import PhotoModal from './PhotoModal/PhotoModal';
 import AboutPersonModal from './AboutPersonModal/AboutPersonModal';
 import EditFormModal from './EditFormModal/EditFormModal';
 import avatar from '../../../assets/images/user-avatar.png';
-import iconInfo from '../../../assets/images/info-icon.svg'
-import iconSettings from '../../../assets/images/settings-icon.svg'
+import iconInfo from '../../../assets/images/info-icon.svg';
+import iconSettings from '../../../assets/images/settings-icon.svg';
+import { useAppDispatch, useTypedSelector } from '../../../hooks/typedHooks'
 
-const ProfileInfo = () => {
+const ProfileInfo: FC = () => {
   const [isPhotoModal, setPhotoModal] = useState(false)
   const [isAboutModal, setAboutModal] = useState(false)
   const [isEditFormModal, setEditFormModal] = useState(false)
 
-  const { profile, status} = useSelector(state => state.profilePage, shallowEqual)
-  const userID = useSelector(state => state.auth.userID)
+  const { profile, status} = useTypedSelector(state => state.profilePage, shallowEqual)
+  const userID = useTypedSelector(state => state.auth.userID)
   const match = { params: useParams()}
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   
   useEffect(() => {
-    let currentUserID = match.params.userID;
+    let currentUserID: any = match.params.userID;
     if (!currentUserID) {
       currentUserID = userID
     }
@@ -31,7 +33,7 @@ const ProfileInfo = () => {
     dispatch(getStatus(currentUserID))
   }, [dispatch, userID, match.params.userID])
   
-  const onUpdateStatus = (statusText) => {
+  const onUpdateStatus = (statusText: string) => {
     dispatch(updateStatus(statusText))
   }
 

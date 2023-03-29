@@ -1,8 +1,17 @@
 import classes from './Friend.module.css';
 import avatar from '../../../assets/images/user-avatar.png';
 import { NavLink } from 'react-router-dom';
+import { FC } from 'react';
+import * as React from 'react';
+import { PhotosType } from '../../../types/types';
 
-const Friend = (props) => {
+type PropsType = {
+  id: number
+  name: string
+  photos: PhotosType
+}
+
+const Friend: FC<PropsType> = (props) => {
   const name = props.name.length > 8 ? `${props.name.slice(0, 8)}...` : props.name
   return (
     <li className={classes.friends__item}>

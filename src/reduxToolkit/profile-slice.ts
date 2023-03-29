@@ -1,15 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { profileAPI } from "../api/api";
-import { ProfileType, PhotosType } from "../types/types";
-import { AppDispatch } from "./store";
+import { ProfileType, PhotosType, PostType } from "../types/types";
+import { AppDispatch } from "../hooks/typedHooks";
 
-type PostType = {
-  id: number
-  message: string
-  likeCount: number
-}
-
-type InitialStateType = {
+type ProfileSliceState = {
   postsData: Array<PostType>
   profile: ProfileType
   status: string
@@ -35,11 +29,11 @@ type SetPhotoActiontype = {
   payload: PhotosType
 }
 
-const initialState: InitialStateType  = {
+const initialState: ProfileSliceState  = {
   postsData: [
-    { message: 'Hello, my name Artem.', id: 1, likeCount: 10},
-    { message: 'I am junior react developer.', id: 2, likeCount: 20},
-    { message: 'Its my social network developed with using react, redux toolkit, react-router-dom, axios, react-hook-form.', id: 3, likeCount: 30}
+    { message: 'Hello, my name Artem.', id: 1, likesCount: 10},
+    { message: 'I am junior react developer.', id: 2, likesCount: 20},
+    { message: 'Its my social network developed with using react, redux toolkit, react-router-dom, axios, react-hook-form.', id: 3, likesCount: 30}
   ],
   profile: null,
   status: ''
@@ -53,7 +47,7 @@ const profileSlice = createSlice({
       const newPost: PostType = {
         message: action.payload,
         id: state.postsData.length + 1,
-        likeCount: 0
+        likesCount: 0
       }
       state.postsData.push(newPost)
     },

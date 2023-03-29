@@ -1,7 +1,9 @@
 import { NavLink } from 'react-router-dom';
-import classes from './Navigation.module.css'
+import classes from './Navigation.module.css';
+import { FC } from 'react';
+import * as React from 'react';
 
-const Navigation = () => {
+const Navigation: FC = () => {
   return (
     <nav className={classes.navigation}>
       <ul className={classes.navigation__list}>

@@ -1,12 +1,13 @@
 import classes from './MyFriends.module.css';
 import Friend from './Friend/Friend';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, FC } from 'react';
+import * as React from 'react';
 import { requestFriends } from '../../reduxToolkit/friends-slice';
+import { useAppDispatch, useTypedSelector } from '../../hooks/typedHooks'
 
-const MyFriends = () => {
-  const friendsData = useSelector(state => state.friendsPage.friendsData)
-  const dispatch = useDispatch();
+const MyFriends: FC = () => {
+  const friendsData = useTypedSelector(state => state.friendsPage.friendsData)
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(requestFriends())

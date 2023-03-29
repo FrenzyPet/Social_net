@@ -1,11 +1,13 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { FC } from 'react';
+import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import { logOut } from '../../reduxToolkit/auth-slice';
 import classes from './Header.module.css';
+import { useAppDispatch, useTypedSelector } from '../../hooks/typedHooks'
 
-const Header = () => {
-  const { isAuth, login } = useSelector(state => state.auth)
-  const dispatch = useDispatch()
+const Header: FC = () => {
+  const { isAuth, login } = useTypedSelector(state => state.auth)
+  const dispatch = useAppDispatch()
 
   const onLogout = () => {
     dispatch(logOut())

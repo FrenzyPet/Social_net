@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { usersAPI } from "../api/api";
 import { UserType } from "../types/types";
-import { AppDispatch } from "./store";
+import { AppDispatch } from "../hooks/typedHooks";
 
-type InitialStateType = {
+type FriendsSliceState = {
   friendsData: Array<UserType>
 }
 
@@ -22,7 +22,7 @@ type DeleteFriendActionType = {
   payload: number
 }
 
-const initialState: InitialStateType = {
+const initialState: FriendsSliceState = {
   friendsData: []
 }
 

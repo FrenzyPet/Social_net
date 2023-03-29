@@ -1,11 +1,13 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { FC } from 'react';
+import * as React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { logIn } from '../../reduxToolkit/auth-slice';
 import style from './Login.module.css';
+import { useAppDispatch, useTypedSelector } from '../../hooks/typedHooks'
 
-const Login = () => {
-  const isAuth = useSelector(state => state.auth.isAuth)
+const Login: FC = () => {
+  const isAuth = useTypedSelector(state => state.auth.isAuth)
 
   if (isAuth) {
     return <Navigate to="/profile"/>
@@ -19,13 +21,19 @@ const Login = () => {
   )
 }
 
-const LoginForm = () => {
-  const dispatch = useDispatch()
+const LoginForm: FC = () => {
+  const dispatch = useAppDispatch()
   const { register, handleSubmit, setError, formState: { errors } } = useForm()
-  const captchaUrl = useSelector(state => state.auth.captchaUrl)
+  const captchaUrl = useTypedSelector(state => state.auth.captchaUrl)
 
-  const onSubmit = ({ email, password, rememberMe, captcha }) => {
-    debugger
+  interface FormData {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha: string
+  }
+
+  const onSubmit = ({ email, password, rememberMe, captcha } : FormData) => {
     dispatch(logIn(email, password, rememberMe, captcha, setError))
   }
 
@@ -38,7 +46,7 @@ const LoginForm = () => {
           className={style.form__input}
           placeholder="Введите email"
         />
-        {errors.email && <span className={style.error}>{errors.email.message}</span>}
+        {errors.email && <span className={style.error}>Назови себя, странник интернета</span>}
       </label>
       <label className={style.form__label}>
         <input
@@ -47,7 +55,7 @@ const LoginForm = () => {
           className={style.form__input}
           placeholder="Введите пароль"
         />
-        {errors.password && <span className={style.error}>{errors.password.message}</span>}
+        {errors.password && <span className={style.error}>Предъявите пароль, уважаемый</span>}
       </label>
       <label className={style.form__label + ' ' + style.form__label__checkbox}>
         <input {...register('rememberMe')} type="checkbox" className={style.form__input__checkbox}/>
@@ -63,7 +71,7 @@ const LoginForm = () => {
             className={style.form__input}
             placeholder="Введите captcha"
           />
-          {errors.captcha && <span className={style.error}>{errors.captcha.message}</span>}
+          {errors.captcha && <span className={style.error}>Без каптчи не войдешь, сорян</span>}
         </label>
       }
       <button className={style.form__button} type="submit">Войти</button>

@@ -1,14 +1,16 @@
 import { useEffect } from 'react';
+import { FC } from 'react';
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { requestUsers, changePage, followThunk, unfollowThunk } from "../../reduxToolkit/users-slice";
 import { deleteFriend, addFriend } from '../../reduxToolkit/friends-slice';
 import style from './Users.module.css';
 import User from './User/User';
 import Preloader from "../common/Preloader/Preloader";
 import Pagination from '../common/Pagination/Pagination';
+import { useAppDispatch, useTypedSelector } from '../../hooks/typedHooks'
 
-const Users = () => {
+
+const Users: FC = () => {
   const { 
     usersData,
     pageSize,
@@ -16,24 +18,24 @@ const Users = () => {
     currentPage, 
     isFetching, 
     followingInProgress
-  } = useSelector((state) => state.usersPage)
+  } = useTypedSelector((state) => state.usersPage)
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(requestUsers(currentPage, pageSize))
   }, [dispatch, currentPage, pageSize]);  
 
-  const onPageChanged = (pageNumber) => {
+  const onPageChanged = (pageNumber: number) => {
     dispatch(changePage(pageNumber, pageSize))
   }
 
-  const onFollow = (userID) => {
+  const onFollow = (userID: number) => {
     dispatch(followThunk(userID))
     dispatch(addFriend(usersData.find( item => item.id === userID)))
   }
   
-  const onUnfollow = (userID) => {
+  const onUnfollow = (userID: number) => {
     dispatch(unfollowThunk(userID))
     dispatch(deleteFriend(userID))
   }

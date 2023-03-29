@@ -3,6 +3,23 @@ export type PhotosType = {
   large: string | null
 }
 
+export type PostType = {
+  id: number
+  message: string
+  likesCount: number
+}
+
+export type DialogType = {
+  id: number
+  name: string
+}
+
+export type MessageType = {
+  id: number
+  text: string
+  isMine: boolean
+}
+
 export type UserType = {
   name: string
   id: number
@@ -12,7 +29,7 @@ export type UserType = {
 }
 
 export type ContactsType = {
-  github: string
+  [github: string]: string
   vk: string
   facebook: string
   instagram: string
@@ -29,5 +46,6 @@ export type ProfileType = {
   fullName: string
   contacts: ContactsType
   photos: PhotosType
+  aboutMe: string
 }
 

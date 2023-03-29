@@ -1,12 +1,19 @@
-import { useDispatch } from 'react-redux'
+import { FC } from 'react';
+import * as React from 'react';
 import { updatePhoto } from '../../../../reduxToolkit/profile-slice'
 import style from './PhotoModal.module.css'
-import ModalWindow from '../../../common/ModalWindow/ModalWindow'
+import ModalWindow from '../../../common/ModalWindow/ModalWindow';
+import { useAppDispatch } from '../../../../hooks/typedHooks';
 
-const PhotoModal = ({ isPhotoModal, setPhotoModal }) => {
-  const dispatch = useDispatch()
+type PropsType = {
+  isPhotoModal: boolean
+  setPhotoModal: (value: boolean) => void
+}
 
-  const onUpdatePhoto = (evt) => {
+const PhotoModal: FC<PropsType> = ({ isPhotoModal, setPhotoModal }) => {
+  const dispatch = useAppDispatch()
+
+  const onUpdatePhoto = (evt: any) => {
     dispatch(updatePhoto(evt.target.files[0]))
     setPhotoModal(false)
   }

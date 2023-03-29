@@ -5,7 +5,7 @@ import style from './ModalWindow.module.css'
 type PropsType = {
   isActive: boolean
   setIsActive: (value: boolean) => void
-  width: number
+  width: string
   children: any
 }
 
