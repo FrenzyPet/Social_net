@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { usersAPI } from "../api/api";
 import { UserType } from "../types/types";
+import { AppDispatch } from "./store";
 
-type InitialStateType = {
+export type UsersSliceState = {
   usersData: Array<UserType>
   pageSize: number
   totalCount: number
@@ -46,7 +47,7 @@ type ToggleFollowingProgressActionType = {
   payload: PayloadToogleType
 }
 
-const initialState: InitialStateType = {
+const initialState: UsersSliceState = {
   usersData: [],
   pageSize: 5,
   totalCount: 0,
@@ -104,7 +105,7 @@ export const {
   setIsFetching,
   toggleFollowingProgress } = usersSlice.actions
 
-export const requestUsers = (currentPage: number, pageSize: number) => async (dispatch: any) => { /* Thunk */
+export const requestUsers = (currentPage: number, pageSize: number) => async (dispatch: AppDispatch) => { /* Thunk */
   dispatch(setIsFetching(true))
   const data = await usersAPI.getUsers(currentPage, pageSize)
   dispatch(setIsFetching(false));
@@ -112,7 +113,7 @@ export const requestUsers = (currentPage: number, pageSize: number) => async (di
   dispatch(setTotalUsersCount(data.totalCount));
 }
 
-export const changePage = (pageNumber: number, pageSize: number) => async (dispatch: any) => { /* Thunk */
+export const changePage = (pageNumber: number, pageSize: number) => async (dispatch: AppDispatch) => { /* Thunk */
   dispatch(setCurrentPage(pageNumber));
   dispatch(setIsFetching(true))
   const data = await usersAPI.getUsers(pageNumber, pageSize)
@@ -120,7 +121,7 @@ export const changePage = (pageNumber: number, pageSize: number) => async (dispa
   dispatch(setUsers(data.items));
 }
 
-export const unfollowThunk = (userID: number) => async (dispatch: any) => {
+export const unfollowThunk = (userID: number) => async (dispatch: AppDispatch) => {
   dispatch(toggleFollowingProgress({ isFetching: true, userID }))
   const data = await usersAPI.unfollowUser(userID)
   if (data.resultCode === 0) {
@@ -129,7 +130,7 @@ export const unfollowThunk = (userID: number) => async (dispatch: any) => {
   dispatch(toggleFollowingProgress({ isFetching: false, userID }))
 }
 
-export const followThunk = (userID: number) => async (dispatch: any) => {
+export const followThunk = (userID: number) => async (dispatch: AppDispatch) => {
   dispatch(toggleFollowingProgress({ isFetching: true, userID }))
   const data = await usersAPI.followUser(userID)
   if (data.resultCode === 0) {

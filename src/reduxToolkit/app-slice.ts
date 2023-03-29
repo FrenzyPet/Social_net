@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getUserLogin } from "./auth-slice";
+import { AppDispatch } from "./store";
 
 type InitialStateType = {
   isInit: boolean
@@ -21,7 +22,7 @@ const appSlice = createSlice({
 
 export const { initialize } = appSlice.actions
 
-export const initializeApp = () => (dispatch: any) => {
+export const initializeApp = () => (dispatch: AppDispatch) => {
   const promise = dispatch(getUserLogin())
   promise.then(() => dispatch(initialize()))
 }

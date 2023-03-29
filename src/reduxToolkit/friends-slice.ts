@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { usersAPI } from "../api/api";
 import { UserType } from "../types/types";
+import { AppDispatch } from "./store";
 
 type InitialStateType = {
   friendsData: Array<UserType>
@@ -43,7 +44,7 @@ const friendsSlice = createSlice({
 
 export const { setFriends, addFriend, deleteFriend } = friendsSlice.actions
 
-export const requestFriends = () => async (dispatch: any) => { 
+export const requestFriends = () => async (dispatch: AppDispatch) => { 
   const data = await usersAPI.getUsers(1, 20);
   dispatch(setFriends(data.items.filter((item: UserType) => item.followed)));
 }

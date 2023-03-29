@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { authAPI, securityAPI } from "../api/api";
+import { AppDispatch } from "./store";
 
 type InitialStateType = {
   userID: number | null
@@ -52,7 +53,7 @@ const authSlice = createSlice({
 
 export const { setUserLogin, setCaptchaUrl } = authSlice.actions
 
-export const getUserLogin = () => async (dispatch: any) => {
+export const getUserLogin = () => async (dispatch: AppDispatch) => {
   const data = await authAPI.startAuthentify();
   if (data.resultCode === 0) {
     const { id: userID, login, email } = data.data;
@@ -61,7 +62,7 @@ export const getUserLogin = () => async (dispatch: any) => {
   }
 }
 
-export const logIn = (email: string, password: string, rememberMe: boolean, captcha: string, setError: any) => async (dispatch: any) => {
+export const logIn = (email: string, password: string, rememberMe: boolean, captcha: string, setError: any) => async (dispatch: AppDispatch) => {
   const response = await authAPI.login(email, password, rememberMe, captcha)
     switch (response.data.resultCode) {
       case 0:
@@ -86,7 +87,7 @@ export const logIn = (email: string, password: string, rememberMe: boolean, capt
     }
 }
 
-export const logOut = () => async (dispatch: any) => {
+export const logOut = () => async (dispatch: AppDispatch) => {
   const response = await authAPI.logout()
   if (response.data.resultCode === 0) {
       const payload: PayloadLoginType  = {userID: null, login: null, email: null, isAuth: false}
@@ -94,7 +95,7 @@ export const logOut = () => async (dispatch: any) => {
     }
 }
 
-export const getCaptcha = () => async (dispatch: any) => {
+export const getCaptcha = () => async (dispatch: AppDispatch) => {
   const response = await securityAPI.getCaptchaUrl()
   dispatch(setCaptchaUrl(response.data.url))
 }

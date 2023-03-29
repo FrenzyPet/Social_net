@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { requestUsers, changePage, followThunk, unfollowThunk } from "../../reduxToolkit/users-slice";
 import { deleteFriend, addFriend } from '../../reduxToolkit/friends-slice';
@@ -15,7 +16,7 @@ const Users = () => {
     currentPage, 
     isFetching, 
     followingInProgress
-  } = useSelector(state => state.usersPage)
+  } = useSelector((state) => state.usersPage)
 
   const dispatch = useDispatch()
 

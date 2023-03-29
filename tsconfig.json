@@ -1,9 +1,13 @@
 {
+  "include": ["src/components", "src/global.d.ts"],
   "compilerOptions": {
+    "jsx": "react",
+    "target": "es5",
     "module": "commonjs",
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
 }

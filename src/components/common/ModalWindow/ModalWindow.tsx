@@ -1,9 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, FC } from 'react';
+import * as React from 'react';
 import style from './ModalWindow.module.css'
 
-const ModalWindow = ({isActive, setIsActive, children, width}) => {
+type PropsType = {
+  isActive: boolean
+  setIsActive: (value: boolean) => void
+  width: number
+  children: any
+}
+
+const ModalWindow: FC<PropsType> = ({isActive, setIsActive, children, width}) => {
   useEffect(() => {
-    const handleEscKey = (evt) => {
+    const handleEscKey = (evt: any) => {
       if (evt.keyCode === 27) {
         setIsActive(false);
       }
@@ -19,7 +27,7 @@ const ModalWindow = ({isActive, setIsActive, children, width}) => {
   return (
     <div
       className={isActive ? (style.backsheet + ' ' + style.backsheet__active) : `${style.backsheet}`}
-      onClick={() => setIsActive()}
+      onClick={() => setIsActive(false)}
       >
       <div
         className={isActive ? style.content + ' ' + style.content__active : style.content}

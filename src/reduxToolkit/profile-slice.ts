@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { profileAPI } from "../api/api";
 import { ProfileType, PhotosType } from "../types/types";
+import { AppDispatch } from "./store";
 
 type PostType = {
   id: number
@@ -70,31 +71,31 @@ const profileSlice = createSlice({
 
 export const { addPost, setUserProfile, setUserStatus, setPhoto } = profileSlice.actions
 
-export const getUserProfile = (userID: number) => async (dispatch: any) => {
+export const getUserProfile = (userID: number) => async (dispatch: AppDispatch) => {
   const data = await profileAPI.getUserProfile(userID)
   dispatch(setUserProfile(data))
 }
 
-export const getStatus = (userID: number) => async (dispatch: any) => {
+export const getStatus = (userID: number) => async (dispatch: AppDispatch) => {
   const response = await profileAPI.getStatus(userID)
   dispatch(setUserStatus(response.data))
 }
 
-export const updateStatus = (statusText: string) => async (dispatch: any) => {
+export const updateStatus = (statusText: string) => async (dispatch: AppDispatch) => {
   const response = await profileAPI.updateStatus(statusText)
   if (response.data.resultCode === 0) {
     dispatch(setUserStatus(statusText))
   }
 }
 
-export const updatePhoto = (file: File) => async (dispatch: any) => {
+export const updatePhoto = (file: File) => async (dispatch: AppDispatch) => {
   const response = await profileAPI.updatePhoto(file)
   if (response.data.resultCode === 0) {
     dispatch(setPhoto(response.data.data.photos))
   }
 }
 
-export const updateProfile = (profile: ProfileType, setError: any) => async (dispatch: any, getState: any) => {
+export const updateProfile = (profile: ProfileType, setError: any) => async (dispatch: AppDispatch, getState: any) => {
   const userID = getState().auth.userID
   const response = await profileAPI.updateProfile(profile)
   if (response.data.resultCode === 0) {

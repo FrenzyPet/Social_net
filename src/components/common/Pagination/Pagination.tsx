@@ -1,12 +1,21 @@
+import { FC } from 'react';
+import * as React from 'react';
 import classes from './Pagination.module.css';
 
-const Pagination = ({ totalCount, pageSize, currentPage, onPageChanged }) => {
+type PropsType = {
+  totalCount: number
+  pageSize: number
+  currentPage: number
+  onPageChanged: (pageNumber : number) => void
+}
+
+const Pagination: FC<PropsType> = ({ totalCount, pageSize, currentPage, onPageChanged }) => {
 
   const pagesCount = Math.ceil(totalCount / pageSize)
   let pages = Array.from({ length: pagesCount }, (_, index) => index + 1);
 
   const curP = currentPage;
-  let slicedPages = []
+  let slicedPages: Array<number> = []
   if (curP >= 1 && curP <=6) {
     slicedPages = pages.slice(0, 11)
   } else if (pagesCount - curP <= 5) {
