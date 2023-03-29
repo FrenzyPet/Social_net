@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ProfileType } from "../types/types";
 
 const instance = axios.create({
   baseURL: 'https://social-network.samuraijs.com/api/1.0/',
@@ -12,12 +13,12 @@ export const usersAPI = {
       .then(response => response.data)
       .catch(error => console.log(error.message))
   },
-  followUser(userID) {
+  followUser(userID: number) {
     return instance.post(`follow/${userID}`)
       .then(response => response.data)
       .catch(error => console.log(error.message))
   },
-  unfollowUser(userID) {
+  unfollowUser(userID: number) {
     return instance.delete(`follow/${userID}`)
       .then(response => response.data)
       .catch(error => console.log(error.message))
@@ -25,18 +26,18 @@ export const usersAPI = {
 }
 
 export const profileAPI = {
-  getUserProfile(userID) {
+  getUserProfile(userID: number) {
     return instance.get(`profile/${userID}`)
       .then(response => response.data)
       .catch(error => console.log(error.message))
   },
-  getStatus(userID) {
+  getStatus(userID: number) {
     return instance.get(`profile/status/${userID}`)
   },
-  updateStatus(statusText) {
+  updateStatus(statusText: string) {
     return instance.put(`profile/status`, { status: statusText })
   },
-  updatePhoto(photoFile) {
+  updatePhoto(photoFile: File) {
     const formData = new FormData();
     formData.append('image', photoFile)
     return instance.put(`profile/photo`, formData, {
@@ -45,7 +46,7 @@ export const profileAPI = {
       }  
     })
   },
-  updateProfile(profile) {
+  updateProfile(profile: ProfileType) {
     return instance.put(`profile`, profile)
   }
 }
@@ -56,7 +57,7 @@ export const authAPI = {
       .then(response => response.data)
       .catch(error => console.log(error.message))
   },
-  login(email, password, rememberMe = false, captcha) {
+  login(email: string, password: string, rememberMe: boolean, captcha: string) {
     return instance.post(`auth/login`, {email, password, rememberMe, captcha})
   },
   logout() {
