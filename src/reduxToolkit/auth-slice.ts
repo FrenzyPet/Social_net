@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { authAPI, securityAPI, ResponseCodes } from "../api/api";
 import { AppDispatch } from "../hooks/typedHooks";
+import { UseFormSetError } from "react-hook-form";
+import { LoginFormValues } from "../components/Login/Login";
 
 type AuthSliceState = {
   userID: number | null
@@ -63,7 +65,7 @@ export const getUserLogin = () => async (dispatch: AppDispatch) => {
   }
 }
 
-export const logIn = (email: string, password: string, rememberMe: boolean, captcha: string, setError: any) => async (dispatch: AppDispatch) => {
+export const logIn = (email: string, password: string, rememberMe: boolean, captcha: string, setError: UseFormSetError<LoginFormValues>) => async (dispatch: AppDispatch) => {
   const response = await authAPI.login(email, password, rememberMe, captcha)
     switch (response.resultCode) {
       case ResponseCodes.Succses:
@@ -73,13 +75,11 @@ export const logIn = (email: string, password: string, rememberMe: boolean, capt
       case ResponseCodes.Captcha:
         dispatch(getCaptcha())
         setError('root.serverError', { 
-          type: response.resultCode,
           message: response.messages[0]
         })
         break
       case ResponseCodes.Error:
         setError('root.serverError', { 
-          type: response.resultCode,
           message: response.messages[0]
         })
         break

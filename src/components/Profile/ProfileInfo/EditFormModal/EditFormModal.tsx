@@ -34,7 +34,7 @@ const EditFormModal: FC<FormProps> = ( { isEditFormModal, setEditFormModal }) =>
   const dispatch = useAppDispatch()
   const { handleSubmit, register, setError, formState: { errors } } = useForm({ defaultValues: profile })
  
-  const onSubmit = async (formData: any) => {
+  const onSubmit = (formData: any) => {
     dispatch(updateProfile(formData, setError))
     setEditFormModal(false)
   }

@@ -97,7 +97,6 @@ export const updateProfile = (profile: ProfileType, setError: any) => async (dis
     dispatch(getUserProfile(userID))
   } else {
     setError('root.serverError', { 
-      type: response.data.resultCode,
       message: response.data.messages[0]
     })
   }

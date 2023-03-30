@@ -6,7 +6,7 @@ type PropsType = {
   isActive: boolean
   setIsActive: (value: boolean) => void
   width: string
-  children: any
+  children: React.ReactNode
 }
 
 const ModalWindow: FC<PropsType> = ({isActive, setIsActive, children, width}) => {
