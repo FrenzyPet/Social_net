@@ -26,6 +26,7 @@ export type UserType = {
   photos: PhotosType
   status: string | null
   followed: boolean
+  uniqueUrlName: string | null
 }
 
 export type ContactsType = {

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { usersAPI } from "../api/api";
+import { ResponseCodes, usersAPI } from "../api/api";
 import { UserType } from "../types/types";
 import { AppDispatch } from "../hooks/typedHooks";
 
@@ -77,24 +77,24 @@ export const {
 
 export const requestUsers = (currentPage: number, pageSize: number) => async (dispatch: AppDispatch) => { /* Thunk */
   dispatch(setIsFetching(true))
-  const data = await usersAPI.getUsers(currentPage, pageSize)
+  const response = await usersAPI.getUsers(currentPage, pageSize)
   dispatch(setIsFetching(false));
-  dispatch(setUsers(data.items));
-  dispatch(setTotalUsersCount(data.totalCount));
+  dispatch(setUsers(response.items));
+  dispatch(setTotalUsersCount(response.totalCount));
 }
 
 export const changePage = (pageNumber: number, pageSize: number) => async (dispatch: AppDispatch) => { /* Thunk */
   dispatch(setCurrentPage(pageNumber));
   dispatch(setIsFetching(true))
-  const data = await usersAPI.getUsers(pageNumber, pageSize)
+  const response = await usersAPI.getUsers(pageNumber, pageSize)
   dispatch(setIsFetching(false));
-  dispatch(setUsers(data.items));
+  dispatch(setUsers(response.items));
 }
 
 export const unfollowThunk = (userID: number) => async (dispatch: AppDispatch) => {
   dispatch(toggleFollowingProgress({ isFetching: true, userID }))
-  const data = await usersAPI.unfollowUser(userID)
-  if (data.resultCode === 0) {
+  const response = await usersAPI.unfollowUser(userID)
+  if (response.resultCode === ResponseCodes.Succses) {
     dispatch(unfollowUser(userID))
   }
   dispatch(toggleFollowingProgress({ isFetching: false, userID }))
@@ -102,8 +102,8 @@ export const unfollowThunk = (userID: number) => async (dispatch: AppDispatch) =
 
 export const followThunk = (userID: number) => async (dispatch: AppDispatch) => {
   dispatch(toggleFollowingProgress({ isFetching: true, userID }))
-  const data = await usersAPI.followUser(userID)
-  if (data.resultCode === 0) {
+  const response = await usersAPI.followUser(userID)
+  if (response.resultCode === ResponseCodes.Succses) {
     dispatch(followUser(userID))
   }
   dispatch(toggleFollowingProgress({ isFetching: false, userID }))

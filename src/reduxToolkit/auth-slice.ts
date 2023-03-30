@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { authAPI, securityAPI } from "../api/api";
+import { authAPI, securityAPI, ResponseCodes } from "../api/api";
 import { AppDispatch } from "../hooks/typedHooks";
 
 type AuthSliceState = {
@@ -54,9 +54,10 @@ const authSlice = createSlice({
 export const { setUserLogin, setCaptchaUrl } = authSlice.actions
 
 export const getUserLogin = () => async (dispatch: AppDispatch) => {
-  const data = await authAPI.startAuthentify();
-  if (data.resultCode === 0) {
-    const { id: userID, login, email } = data.data;
+  const response = await authAPI.startAuthentify();
+  
+  if (response.resultCode === ResponseCodes.Succses) {
+    const { id: userID, login, email } = response.data;
     const payload = {userID, login, email, isAuth: true}
     dispatch(setUserLogin(payload));
   }
@@ -64,22 +65,22 @@ export const getUserLogin = () => async (dispatch: AppDispatch) => {
 
 export const logIn = (email: string, password: string, rememberMe: boolean, captcha: string, setError: any) => async (dispatch: AppDispatch) => {
   const response = await authAPI.login(email, password, rememberMe, captcha)
-    switch (response.data.resultCode) {
-      case 0:
+    switch (response.resultCode) {
+      case ResponseCodes.Succses:
         dispatch(getUserLogin())
         dispatch(setCaptchaUrl(''))
         break
-      case 10:
+      case ResponseCodes.Captcha:
         dispatch(getCaptcha())
         setError('root.serverError', { 
-          type: response.data.resultCode,
-          message: response.data.messages[0]
+          type: response.resultCode,
+          message: response.messages[0]
         })
         break
-      case 1:
+      case ResponseCodes.Error:
         setError('root.serverError', { 
-          type: response.data.resultCode,
-          message: response.data.messages[0]
+          type: response.resultCode,
+          message: response.messages[0]
         })
         break
       default:
@@ -89,7 +90,7 @@ export const logIn = (email: string, password: string, rememberMe: boolean, capt
 
 export const logOut = () => async (dispatch: AppDispatch) => {
   const response = await authAPI.logout()
-  if (response.data.resultCode === 0) {
+  if (response.resultCode === ResponseCodes.Succses) {
       const payload: PayloadLoginType  = {userID: null, login: null, email: null, isAuth: false}
       dispatch(setUserLogin(payload))
     }
@@ -97,7 +98,7 @@ export const logOut = () => async (dispatch: AppDispatch) => {
 
 export const getCaptcha = () => async (dispatch: AppDispatch) => {
   const response = await securityAPI.getCaptchaUrl()
-  dispatch(setCaptchaUrl(response.data.url))
+  dispatch(setCaptchaUrl(response.url))
 }
 
 export default authSlice.reducer;

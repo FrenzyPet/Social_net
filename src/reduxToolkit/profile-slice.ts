@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { profileAPI } from "../api/api";
+import { profileAPI, ResponseCodes } from "../api/api";
 import { ProfileType, PhotosType, PostType } from "../types/types";
 import { AppDispatch } from "../hooks/typedHooks";
+import { RootState } from "./store";
 
 type ProfileSliceState = {
   postsData: Array<PostType>
@@ -66,8 +67,8 @@ const profileSlice = createSlice({
 export const { addPost, setUserProfile, setUserStatus, setPhoto } = profileSlice.actions
 
 export const getUserProfile = (userID: number) => async (dispatch: AppDispatch) => {
-  const data = await profileAPI.getUserProfile(userID)
-  dispatch(setUserProfile(data))
+  const response = await profileAPI.getUserProfile(userID)
+  dispatch(setUserProfile(response))
 }
 
 export const getStatus = (userID: number) => async (dispatch: AppDispatch) => {
@@ -77,22 +78,22 @@ export const getStatus = (userID: number) => async (dispatch: AppDispatch) => {
 
 export const updateStatus = (statusText: string) => async (dispatch: AppDispatch) => {
   const response = await profileAPI.updateStatus(statusText)
-  if (response.data.resultCode === 0) {
+  if (response.data.resultCode === ResponseCodes.Succses) {
     dispatch(setUserStatus(statusText))
   }
 }
 
 export const updatePhoto = (file: File) => async (dispatch: AppDispatch) => {
   const response = await profileAPI.updatePhoto(file)
-  if (response.data.resultCode === 0) {
-    dispatch(setPhoto(response.data.data.photos))
+  if (response.resultCode === ResponseCodes.Succses) {
+    dispatch(setPhoto(response.data))
   }
 }
 
-export const updateProfile = (profile: ProfileType, setError: any) => async (dispatch: AppDispatch, getState: any) => {
+export const updateProfile = (profile: ProfileType, setError: any) => async (dispatch: AppDispatch, getState: () => RootState) => {
   const userID = getState().auth.userID
   const response = await profileAPI.updateProfile(profile)
-  if (response.data.resultCode === 0) {
+  if (response.data.resultCode === ResponseCodes.Succses) {
     dispatch(getUserProfile(userID))
   } else {
     setError('root.serverError', { 
