@@ -36,6 +36,14 @@ export const usersAPI = {
   unfollowUser(userID: number) {
     return instance.delete<FollowUserResponse>(`follow/${userID}`)
                    .then(response => response.data)
+  },
+  getFriends() {
+    return instance.get<GetUsersResponse>(`users?count=100&friend=true`)
+                   .then(response => response.data)
+  },
+  searchUsers(term: string, isFriend = false) {
+    return instance.get<GetUsersResponse>(`users?count=100&term=${term}&friend=${isFriend}`)
+                   .then(response => response.data)
   }
 }
 

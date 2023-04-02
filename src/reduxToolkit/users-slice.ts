@@ -109,4 +109,11 @@ export const followThunk = (userID: number) => async (dispatch: AppDispatch) => 
   dispatch(toggleFollowingProgress({ isFetching: false, userID }))
 }
 
+export const searchUsers = (term: string, isFriend = false) => async (dispatch: AppDispatch) => {
+  dispatch(setIsFetching(true))
+  const response = await usersAPI.searchUsers(term, isFriend)
+  dispatch(setIsFetching(false));
+  dispatch(setUsers(response.items));
+}
+
 export default usersSlice.reducer;

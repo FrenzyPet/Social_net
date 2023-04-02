@@ -31,7 +31,7 @@ const friendsSlice = createSlice({
   initialState,
   reducers: {
     setFriends: (state, action: SetFriendsActionType) => {
-      state.friendsData = state.friendsData.concat(action.payload)
+      state.friendsData = action.payload
     },
     addFriend: (state, action: AddFriendActionType) => {
       state.friendsData.push(action.payload)
@@ -45,8 +45,8 @@ const friendsSlice = createSlice({
 export const { setFriends, addFriend, deleteFriend } = friendsSlice.actions
 
 export const requestFriends = () => async (dispatch: AppDispatch) => { 
-  const data = await usersAPI.getUsers(1, 20);
-  dispatch(setFriends(data.items.filter((item: UserType) => item.followed)));
+  const response = await usersAPI.getFriends()
+  dispatch(setFriends(response.items))
 }
 
 export default friendsSlice.reducer;

@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { FC } from 'react';
 import * as React from 'react';
-import { requestUsers, changePage, followThunk, unfollowThunk } from "../../reduxToolkit/users-slice";
+import { requestUsers, changePage, followThunk, unfollowThunk, searchUsers } from "../../reduxToolkit/users-slice";
 import { deleteFriend, addFriend } from '../../reduxToolkit/friends-slice';
 import style from './Users.module.css';
 import User from './User/User';
 import Preloader from "../common/Preloader/Preloader";
 import Pagination from '../common/Pagination/Pagination';
 import { useAppDispatch, useTypedSelector } from '../../hooks/typedHooks'
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 
 const Users: FC = () => {
@@ -62,15 +63,34 @@ const Users: FC = () => {
                   currentPage={currentPage}
                   onPageChanged={onPageChanged}
       />
-      <form className={style.users__form} action="">
-        <input className={style.form__input} type="text" placeholder="Введите имя пользователя"/>
-        <button className={style.form__button} type='submit'>Найти друзей</button>
-      </form>
+      <SearchForm />
       <ul className={style.users__list}>
         { usersElement }
       </ul>
     </div>
   </>
+  )
+
+}
+
+interface SearchFormValues {
+  term: string
+}
+
+const SearchForm: FC = () => {
+  const { handleSubmit, register } = useForm<SearchFormValues>()
+  const dispatch = useAppDispatch()
+  
+  const onSubmit: SubmitHandler<SearchFormValues> = ({ term }) => {
+    // console.log(term)
+    dispatch(searchUsers(term))
+  }
+
+  return (
+    <form className={style.users__form} onSubmit={handleSubmit(onSubmit)}>
+        <input {...register("term", { required: true })} className={style.form__input} type="text" placeholder="Введите имя пользователя"/>
+        <button className={style.form__button} type='submit'>Найти друзей</button>
+    </form>
   )
 
 }

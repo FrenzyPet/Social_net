@@ -16,7 +16,7 @@ const MyFriends: FC = () => {
   useEffect(() => {
   }, [friendsData])
 
-  const friendsElements = friendsData.map( (item) => (<Friend id={item.id} name={item.name} photos={item.photos} key={item.id}/>));
+  const friendsElements = friendsData.slice(0, 9).map( (item) => (<Friend id={item.id} name={item.name} photos={item.photos} key={item.id}/>));
 
   return (
     <section className={classes.friends}>
