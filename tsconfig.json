@@ -1,6 +1,7 @@
 {
   "include": ["src/components", "src/global.d.ts"],
   "compilerOptions": {
+    "esModuleInterop": true,
     "jsx": "react",
     "target": "es5",
     "module": "commonjs",

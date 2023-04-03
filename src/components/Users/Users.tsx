@@ -1,7 +1,6 @@
-import { useEffect } from 'react';
-import { FC } from 'react';
+import { FC, KeyboardEventHandler, useEffect } from 'react';
 import * as React from 'react';
-import { requestUsers, changePage, followThunk, unfollowThunk, searchUsers } from "../../reduxToolkit/users-slice";
+import { requestUsers, followThunk, unfollowThunk } from "../../reduxToolkit/users-slice";
 import { deleteFriend, addFriend } from '../../reduxToolkit/friends-slice';
 import style from './Users.module.css';
 import User from './User/User';
@@ -9,6 +8,7 @@ import Preloader from "../common/Preloader/Preloader";
 import Pagination from '../common/Pagination/Pagination';
 import { useAppDispatch, useTypedSelector } from '../../hooks/typedHooks'
 import { useForm, SubmitHandler } from 'react-hook-form';
+// import { Controller } from 'react-hook-form';
 
 
 const Users: FC = () => {
@@ -18,17 +18,18 @@ const Users: FC = () => {
     totalCount, 
     currentPage, 
     isFetching, 
-    followingInProgress
+    followingInProgress,
+    filter,
   } = useTypedSelector((state) => state.usersPage)
 
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(requestUsers(currentPage, pageSize))
-  }, [dispatch, currentPage, pageSize]);  
+    dispatch(requestUsers(currentPage, pageSize, filter.term))
+  }, [dispatch, currentPage, pageSize, filter.term]);  
 
   const onPageChanged = (pageNumber: number) => {
-    dispatch(changePage(pageNumber, pageSize))
+    dispatch(requestUsers(pageNumber, pageSize, filter.term))
   }
 
   const onFollow = (userID: number) => {
@@ -63,7 +64,8 @@ const Users: FC = () => {
                   currentPage={currentPage}
                   onPageChanged={onPageChanged}
       />
-      <SearchForm />
+      <SearchForm pageSize={pageSize}
+                  currentPage={currentPage}/>
       <ul className={style.users__list}>
         { usersElement }
       </ul>
@@ -73,23 +75,46 @@ const Users: FC = () => {
 
 }
 
-interface SearchFormValues {
-  term: string
+interface PropsType {
+  currentPage: number
+  pageSize: number
 }
 
-const SearchForm: FC = () => {
+const SearchForm: FC<PropsType> = ({ currentPage, pageSize }) => {
+  interface SearchFormValues {
+    term: string
+  }
+
   const { handleSubmit, register } = useForm<SearchFormValues>()
   const dispatch = useAppDispatch()
   
   const onSubmit: SubmitHandler<SearchFormValues> = ({ term }) => {
-    // console.log(term)
-    dispatch(searchUsers(term))
+    dispatch(requestUsers(currentPage, pageSize, term))
+  }
+  
+  const onSubmitByEnter: KeyboardEventHandler<HTMLInputElement> = (evt) => {
+    if (evt.key === 'Enter') {
+      handleSubmit(onSubmit)
+    }
   }
 
   return (
-    <form className={style.users__form} onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("term", { required: true })} className={style.form__input} type="text" placeholder="Введите имя пользователя"/>
-        <button className={style.form__button} type='submit'>Найти друзей</button>
+    <form className={ style.users__form } onSubmit={ handleSubmit(onSubmit) }>
+        <input
+          {...register("term", { required: true })}
+          onKeyDown={ onSubmitByEnter }
+          className={ style.form__input }
+          type="text"
+          placeholder="Введите имя пользователя"
+        />
+
+        {/* <Controller
+          render={({ field }) => <input {...field} className={ style.form__input } />}
+          name="term"
+          control={control}
+          defaultValue=""
+        /> */}
+        <button className={ style.form__button } type='submit'>Найти</button>
     </form>
   )
 

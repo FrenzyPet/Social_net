@@ -45,6 +45,12 @@
 
 .statusbar {
   color: rgba(134, 131, 131, 0.664);
+  max-width: 500px;
+}
+
+.statusbar span {
+  color: rgba(134, 131, 131, 0.664);
+  word-break: break-all;
 }
 
 .settings {

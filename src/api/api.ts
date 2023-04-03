@@ -25,8 +25,8 @@ type FollowUserResponse = {
 }
 
 export const usersAPI = {
-  getUsers(currentPage = 1, pageSize = 5) {
-    return instance.get<GetUsersResponse>(`users?page=${currentPage}&count=${pageSize}`)
+  getUsers(currentPage: number, pageSize: number, term: string = '', isFriend: boolean = false) {
+    return instance.get<GetUsersResponse>(`users?page=${currentPage}&count=${pageSize}&term=${term}&friend=${isFriend}`)
                    .then(response => response.data)
   },
   followUser(userID: number) {
@@ -41,10 +41,6 @@ export const usersAPI = {
     return instance.get<GetUsersResponse>(`users?count=100&friend=true`)
                    .then(response => response.data)
   },
-  searchUsers(term: string, isFriend = false) {
-    return instance.get<GetUsersResponse>(`users?count=100&term=${term}&friend=${isFriend}`)
-                   .then(response => response.data)
-  }
 }
 
 type GetUserProfileResponse = ProfileType

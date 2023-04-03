@@ -10,6 +10,7 @@ export type UsersSliceState = {
   currentPage: number
   isFetching: boolean
   followingInProgress: Array<number>
+  filter: { term: string }
 }
 
 type PayloadToogleType = {
@@ -23,7 +24,8 @@ const initialState: UsersSliceState = {
   totalCount: 0,
   currentPage: 1,
   isFetching: true,
-  followingInProgress: []
+  followingInProgress: [],
+  filter: { term: '' }
 }
 
 const usersSlice = createSlice({
@@ -58,6 +60,9 @@ const usersSlice = createSlice({
     setIsFetching: (state, action: PayloadAction<boolean>) => {
       state.isFetching = action.payload
     },
+    setFilter: (state, action: PayloadAction<string>) => {
+      state.filter.term = action.payload
+    },
     toggleFollowingProgress: (state, action: PayloadAction<PayloadToogleType>) => {
       state.followingInProgress = action.payload.isFetching
                                     ? [...state.followingInProgress, action.payload.userID]
@@ -73,22 +78,17 @@ export const {
   setCurrentPage,
   setTotalUsersCount,
   setIsFetching,
-  toggleFollowingProgress } = usersSlice.actions
+  toggleFollowingProgress,
+  setFilter } = usersSlice.actions
 
-export const requestUsers = (currentPage: number, pageSize: number) => async (dispatch: AppDispatch) => { /* Thunk */
+export const requestUsers = (currentPage: number, pageSize: number, term: string) => async (dispatch: AppDispatch) => {
   dispatch(setIsFetching(true))
-  const response = await usersAPI.getUsers(currentPage, pageSize)
-  dispatch(setIsFetching(false));
-  dispatch(setUsers(response.items));
-  dispatch(setTotalUsersCount(response.totalCount));
-}
-
-export const changePage = (pageNumber: number, pageSize: number) => async (dispatch: AppDispatch) => { /* Thunk */
-  dispatch(setCurrentPage(pageNumber));
-  dispatch(setIsFetching(true))
-  const response = await usersAPI.getUsers(pageNumber, pageSize)
-  dispatch(setIsFetching(false));
-  dispatch(setUsers(response.items));
+  dispatch(setCurrentPage(currentPage))
+  dispatch(setFilter(term))
+  const response = await usersAPI.getUsers(currentPage, pageSize, term)
+  dispatch(setIsFetching(false))
+  dispatch(setUsers(response.items))
+  dispatch(setTotalUsersCount(response.totalCount))
 }
 
 export const unfollowThunk = (userID: number) => async (dispatch: AppDispatch) => {
@@ -107,13 +107,6 @@ export const followThunk = (userID: number) => async (dispatch: AppDispatch) => 
     dispatch(followUser(userID))
   }
   dispatch(toggleFollowingProgress({ isFetching: false, userID }))
-}
-
-export const searchUsers = (term: string, isFriend = false) => async (dispatch: AppDispatch) => {
-  dispatch(setIsFetching(true))
-  const response = await usersAPI.searchUsers(term, isFriend)
-  dispatch(setIsFetching(false));
-  dispatch(setUsers(response.items));
 }
 
 export default usersSlice.reducer;
