@@ -8,8 +8,6 @@ import Preloader from "../common/Preloader/Preloader";
 import Pagination from '../common/Pagination/Pagination';
 import { useAppDispatch, useTypedSelector } from '../../hooks/typedHooks'
 import { useForm, SubmitHandler } from 'react-hook-form';
-// import { Controller } from 'react-hook-form';
-
 
 const Users: FC = () => {
   const { 
@@ -21,7 +19,6 @@ const Users: FC = () => {
     followingInProgress,
     filter,
   } = useTypedSelector((state) => state.usersPage)
-
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -107,13 +104,6 @@ const SearchForm: FC<PropsType> = ({ currentPage, pageSize }) => {
           type="text"
           placeholder="Введите имя пользователя"
         />
-
-        {/* <Controller
-          render={({ field }) => <input {...field} className={ style.form__input } />}
-          name="term"
-          control={control}
-          defaultValue=""
-        /> */}
         <button className={ style.form__button } type='submit'>Найти</button>
     </form>
   )
