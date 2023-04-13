@@ -16,6 +16,7 @@ import Login from './components/Login/Login'
 import Music from './components/Music/Music'
 import { useAppDispatch, useTypedSelector } from './hooks/typedHooks'
 import './App.css'
+import ChatPage from './pages/Chat/ChatPage'
 
 const App: React.FC = () => {
   const isInit = useTypedSelector(state => state.app.isInit)
@@ -43,6 +44,7 @@ const App: React.FC = () => {
           <Route path="/music" element={<Music />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/users" element={<Users />} />
+          <Route path="/chat" element={<ChatPage />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>

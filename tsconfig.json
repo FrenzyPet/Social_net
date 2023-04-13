@@ -1,5 +1,5 @@
 {
-  "include": ["src/components", "src/global.d.ts"],
+  "include": ["src/components", "src/pages", "src/global.d.ts"],
   "compilerOptions": {
     "esModuleInterop": true,
     "jsx": "react",
@@ -10,5 +10,5 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
-  },
+  }
 }
